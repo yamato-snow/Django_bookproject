@@ -1,93 +1,94 @@
-# 提供側のREADME.md
+# 簡易Python環境構築
 
-# Python Docker 環境
+## 概要
+このプロジェクトはPythonを使用したサンプルアプリケーションです。Dockerを利用して環境を構築し、ローカルで容易に実行できます。
 
-このプロジェクトは、基本的なPythonとDjangoの開発環境をDockerで提供します。
+## 前提条件
+- Dockerがインストールされていること。
+- Docker Composeがインストールされていること。
 
-## 初期設定
-
-まず、Djangoプロジェクトを始める前に必要なライブラリを`requirements.txt`に追加してください。
-
-例:
-
+## プロジェクトの構成
 ```
-Django>=3.2,<4.0
-```
-
-## Dockerコンテナのビルド
-
-プロジェクトディレクトリで以下のコマンドを実行してDockerイメージをビルドします。
-
-```
-docker-compose build
-```
-
-## Dockerコンテナの起動
-
-Dockerコンテナを起動するには、以下のコマンドを実行します。
-
-```
-docker-compose up
+C:.
+│  .gitignore
+│  README.md
+│  requirements.txt
+│
+├─.docker
+│      docker-compose.yml
+│      Dockerfile
+│
+├─src
+│      main.py
+│
+└─tests
 ```
 
-このコマンドにより、Django開発サーバーが起動します。ブラウザで`http://localhost:8000`にアクセスして動作を確認してください。
+## 実行手順
 
-## Djangoプロジェクトの作成
+1. **プロジェクトのクローン**
 
-Dockerイメージ内でDjangoプロジェクトを作成するには、次のコマンドを実行します。
+    まず、このプロジェクトをあなたのローカルシステムにクローンします。
+    ```
+    git clone <プロジェクトのURL>
+    ```
+    クローンしたディレクトリに移動します。
+    ```
+    cd <プロジェクト名>
+    ```
 
-```
-docker-compose run web django-admin startproject config .
-```
+2. **Dockerイメージのビルド**
 
-## ライブラリの追加
+    プロジェクトのルートディレクトリから、Dockerイメージをビルドします。以下のコマンドを実行してください。
+    ```
+    docker-compose -f .docker/docker-compose.yml build
+    ```
 
-プロジェクトに新しいPythonライブラリを追加するには、`requirements.txt`にライブラリを追加し、`docker-compose build`を再実行してください。
+3. **コンテナの起動**
 
+    Dockerイメージのビルドが完了したら、コンテナを起動します。
+    ```
+    docker-compose -f .docker/docker-compose.yml up
+    ```
 
-# 使用者側のREADME.md
+    コンテナをバックグラウンドで実行したい場合は、コマンドに`-d`フラグを追加します。
+    ```
+    docker-compose -f .docker/docker-compose.yml up -d
+    ```
 
-# プロジェクトの開始
+4. **アプリケーションの停止とクリーンアップ**
 
-このプロジェクトは、Dockerを使用してPythonとDjangoでの開発を行うための環境を提供します。
-
-## 必要条件
-
-- Docker
-- Docker Compose
-
-がインストールされていることを確認してください。
-
-## 開発の始め方
-
-1. このリポジトリをクローンします。
-2. 必要に応じて、`requirements.txt`にライブラリを追加します。
-3. `docker-compose up --build` コマンドでDocker環境を構築して起動します。
-4. ブラウザを開き、`http://localhost:8000` にアクセスして、Djangoアプリケーションが正しく動作していることを確認します。
-
-## ライブラリの追加方法
-
-プロジェクトに新しいライブラリを追加したい場合は、以下の手順に従ってください。
-
-1. 必要なライブラリを `requirements.txt` に追加します。
-2. `docker-compose build` コマンドを実行して、Dockerイメージを再ビルドします。
-3. 再ビルド後、`docker-compose up` でコンテナを再起動します。
-
-この手順により、追加したライブラリがコンテナ内にインストールされます。
-
-## Djangoプロジェクトの管理
-
-Djangoプロジェクトに対してマイグレーションや管理コマンドを実行するには、`docker-compose run web` コマンドを使用します。例えば、マイグレーションを適用するには、次のコマンドを実行します。
-
-```
-docker-compose run web python manage.py migrate
-```
-
-このようにして、Dockerコンテナ内でDjangoプロジェクトの管理が可能になります。
+    アプリケーションの実行を停止し、コンテナを削除するには、次のコマンドを実行します。
+    ```
+    docker-compose -f .docker/docker-compose.yml down
+    ```
 
 ## 注意事項
+- この手順は、プロジェクトのディレクトリ構造や設定が予め指定された通りであることを前提としています。
+- 必要に応じて、`.env`ファイルを作成し、環境変数を設定してください。
 
-- コンテナ内で作成されたファイルは、コンテナを実行しているユーザーの権限で作成されます。ファイルの所有権に関する問題が発生した場合は、適宜、権限の調整を行ってください。
-- Dockerコンテナの環境は、`Dockerfile` および `docker-compose.yml` で定義されています。環境に変更が必要な場合は、これらのファイルを編集し、再ビルドを行ってください。
+以下は、`.env`ファイルを含む更新されたディレクトリ構造の例です。
 
-これで、Dockerを使用してPythonとDjangoの開発環境を構築し、プロジェクトの開発を始める準備が整いました。開発中に追加の依存関係が生じた場合は、上記の手順に従って環境を更新してください。
+```
+C:.
+│  .gitignore              # Gitの無視ファイルリスト
+│  README.md               # プロジェクトの説明
+│  requirements.txt        # Pythonの依存関係リスト
+│  .env                    # 環境変数設定ファイル <-- ここに配置
+│
+├─.docker
+│      docker-compose.yml  # Docker Compose設定ファイル
+│      Dockerfile          # Dockerイメージのビルド指示ファイル
+│
+├─src
+│      main.py             # アプリケーションのメインスクリプト
+│
+└─tests
+    # テストスクリプト（ここに配置されます）
+```
+
+`.env`ファイルをプロジェクトのルートディレクトリに配置することで、`docker-compose.yml`がデフォルトでその場所から環境変数を読み込むことができます。このファイルを使用することで、データベースの接続情報、APIキー、その他の機密情報など、開発、テスト、本番環境に特有の設定を管理できます。また、`.env`ファイルはプライバシーを保護するために、バージョン管理システム（例: Git）から除外すべきです。これは、`.gitignore`ファイルに`.env`を追加することで達成できます。
+
+### 重要:
+- `.env`ファイルは機密情報を含む可能性があるため、外部に公開しないようにしてください。
+- 環境ごとに異なる`.env`ファイルを持つ場合（例：`.env.production`、`.env.development`）、適切なファイルが各環境で読み込まれるように設定する必要があります。これは`docker-compose.yml`やアプリケーションの起動スクリプトで管理できます。

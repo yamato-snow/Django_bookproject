@@ -1,5 +1,5 @@
-# Pythonのベースイメージを指定
-FROM python:3.9
+# Python公式イメージをベースにする
+FROM python:3.12.2
 
 # 作業ディレクトリを設定
 WORKDIR /usr/src/app
@@ -12,8 +12,5 @@ ENV PYTHONUNBUFFERED 1
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ポートを公開
-EXPOSE 8000
-
 # デフォルトコマンド
-CMD ["django-admin", "startproject", "myproject", "."]
+CMD ["python"]
