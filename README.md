@@ -18,10 +18,11 @@ C:.
 │      docker-compose.yml
 │      Dockerfile
 │
-├─src
-│      main.py
+├─project
+│      README.md
 │
 └─tests
+        test.py
 ```
 
 ## 実行手順
@@ -47,9 +48,6 @@ C:.
 3. **コンテナの起動**
 
     Dockerイメージのビルドが完了したら、コンテナを起動します。
-    ```
-    docker-compose -f .docker/docker-compose.yml up
-    ```
 
     コンテナをバックグラウンドで実行したい場合は、コマンドに`-d`フラグを追加します。
     ```
@@ -68,13 +66,6 @@ C:.
     docker images ls -a
     ```
 
-5. **アプリケーションの実行**
-
-    アプリケーションの実行をするためには、次のコマンドを実行します。
-    ```
-    docker exec -it Docker_python python main.py
-    ```
-
 5. **bashの実行**
 
     bashの実行をするためには、次のコマンドを実行します。
@@ -87,7 +78,7 @@ C:.
     exit
     ```
 
-7. **各種bash内部のコマンド**
+6. **各種bash内部のコマンド**
 
     インストールされているPythonパッケージのリストを表示
     ```
@@ -129,7 +120,7 @@ C:.
     ls -a
     ```
 
-6. **アプリケーションの停止とクリーンアップ**
+7. **アプリケーションの停止とクリーンアップ**
 
     アプリケーションの実行を停止し、コンテナを削除するには、次のコマンドを実行します。
     ```
@@ -153,7 +144,7 @@ C:.
 │      docker-compose.yml  # Docker Compose設定ファイル
 │      Dockerfile          # Dockerイメージのビルド指示ファイル
 │
-├─src
+├─project
 │      main.py             # アプリケーションのメインスクリプト
 │
 └─tests
