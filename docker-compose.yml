@@ -1,37 +1,10 @@
 version: '3.8'
-
 services:
-  db:
-    image: postgres:13
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: django_dev
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-    ports:
-      - "5432:5432"
-
-  web:
+  python3:
+    restart: always
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./src:/app
-      - .:/app
-    ports:
-      - "8000:8000"
-    environment:
-      - DEBUG=True  # Djangoのデバッグモードを有効化
-      - DB_NAME=django_dev
-      - DB_USER=user
-      - DB_PASS=password
-      - DB_SERVICE=db
-      - DB_PORT=5432
-    depends_on:
-      - db
-    # コンテナ内で発生したエラーをより詳細に表示するための設定
+    container_name: 'python3'
+    working_dir: '/root/'
     tty: true
-    stdin_open: true
-
-volumes:
-  postgres_data:
+    volumes:
+      - ./src:/root/src

@@ -1,24 +1,19 @@
-# Pythonの公式イメージをベースに使用します。バージョンはプロジェクトに合わせて選択してください。
-FROM python:3.12
+# Pythonのベースイメージを指定
+FROM python:3.9
 
-# 環境変数を設定してPythonがpycファイルやディスクキャッシュを生成しないようにします。
+# 作業ディレクトリを設定
+WORKDIR /usr/src/app
+
+# Pythonがpycファイルとディスクキャッシュを生成するのを防ぐ
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# 作業ディレクトリを設定します。コンテナ内でのアプリケーションのルートディレクトリです。
-WORKDIR /app
-
-# 依存関係ファイルをコンテナにコピーします。
-COPY requirements.txt /app/
-
-# requirements.txtにリストされたパッケージをインストールします。
+# 依存関係をインストール
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# プロジェクトディレクトリ（src/）をコンテナの作業ディレクトリにコピーします。
-COPY src/ /app/
+# ポートを公開
+EXPOSE 8000
 
-# manage.pyをコンテナの作業ディレクトリ直下にコピーします。
-COPY manage.py /app/
-
-# コンテナ起動時にDjango開発サーバーを起動するコマンドを指定します。
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# デフォルトコマンド
+CMD ["django-admin", "startproject", "myproject", "."]
