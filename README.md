@@ -56,7 +56,26 @@ C:.
     docker-compose -f .docker/docker-compose.yml up -d
     ```
 
-4. **アプリケーションの停止とクリーンアップ**
+4. **各種コマンド**
+
+    Dockerのコンテナを確認
+    ```
+    docker container ls -a 
+    ```
+
+    Dockerのイメージを確認
+    ```
+    docker images ls -a
+    ```
+
+5. **アプリケーションの実行**
+
+    アプリケーションの実行をするためには、次のコマンドを実行します。
+    ```
+    docker exec -it python3 python main.py
+    ```
+
+6. **アプリケーションの停止とクリーンアップ**
 
     アプリケーションの実行を停止し、コンテナを削除するには、次のコマンドを実行します。
     ```
