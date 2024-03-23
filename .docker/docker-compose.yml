@@ -9,4 +9,4 @@ services:
     working_dir: '/usr/src/app'
     tty: true
     volumes:
-      - ../src:/usr/src/app
+      - ../project:/usr/src/app
