@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  python3:
+    restart: always
+    build: 
+      context: ..
+      dockerfile: .docker/Dockerfile
+    container_name: 'Docker_python'
+    env_file: 
+      - .env
+    working_dir: '/usr/src/app'
+    tty: true
+    volumes:
+      - ../project:/usr/src/app
