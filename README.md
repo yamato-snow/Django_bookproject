@@ -22,6 +22,7 @@ C:.
 │  .gitignore
 │  README.md
 │  requirements.txt
+│  .env
 │
 ├─.docker
 │      docker-compose.yml
@@ -29,6 +30,8 @@ C:.
 │
 ├─project
 │      README.md
+│      requirements.txt
+│      main.py
 │
 └─tests
         test.py
@@ -151,7 +154,7 @@ C:.
 C:.
 │  .gitignore              # Gitの無視ファイルリスト
 │  README.md               # プロジェクトの説明
-│  requirements.txt        # Pythonの依存関係リスト
+│  requirements.txt        # 基本のPythonの依存関係リスト
 │  .env                    # 環境変数設定ファイル <-- ここに配置
 │
 ├─.docker
@@ -160,6 +163,8 @@ C:.
 │
 ├─project
 │      main.py             # アプリケーションのメインスクリプト
+│      README.md           # プロジェクトの説明
+│      requirements.txt    # 独自のPythonの依存関係リスト
 │
 └─tests
     # テストスクリプト（ここに配置されます）
