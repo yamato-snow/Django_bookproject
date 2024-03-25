@@ -99,6 +99,11 @@ C:.
     python --version
     ```
 
+    独自のrequirements.txtファイルを使用してPythonパッケージをインストール
+    ```
+    pip install -r requirements.txt
+    ```
+
     ホームに移動
     ```
     cd
