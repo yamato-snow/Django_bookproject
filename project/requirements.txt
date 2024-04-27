@@ -1,4 +1,1 @@
-pandas
-numpy
-scikit-learn
-matplotlib
+Django>=3.2

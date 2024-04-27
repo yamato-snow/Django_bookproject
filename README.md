@@ -13,6 +13,8 @@
 
 docker-compose.ymlファイル内にenv_fileオプションを指定することで、.envファイルの内容がコンテナ起動時に自動的に読み込まれるように設定されています。
 
+pull時に`.env`ファイルが`.gitignore`に含まれている場合、`.env`ファイルは`.gitignore`に含まれているため、`.gitignore`に`.env`を追加する必要があります。
+
 ## 前提条件
 - Docker Desktopがインストールされていること。
 
@@ -43,7 +45,7 @@ C:.
 
     まず、このプロジェクトをあなたのローカルシステムにクローンします。
     ```
-    git clone <プロジェクトのURL>
+    git clone https://github.com/yamato-snow/Python_Dev.git <プロジェクト名>
     ```
     クローンしたディレクトリに移動します。
     ```

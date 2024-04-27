@@ -2,12 +2,12 @@
 
 ## 1. djangoプロジェクトの作成
 ```
-django-admin startproject bookproject .
+django-admin startproject <プロジェクト名> .
 ```
 
 ## 2. djangoアプリケーションの作成
 ```
-python manage.py startapp book
+python manage.py startapp <アプリケーション名>
 ```
 
 ## 3. DBへ登録するためにmigrationファイルを作成
