@@ -1,5 +1,5 @@
 # Python公式イメージをベースにする
-FROM python:3.12.2
+FROM python:3.8.12
 
 # 作業ディレクトリを設定
 WORKDIR /usr/src/app
