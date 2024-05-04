@@ -1,3 +1,7 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Book
 
-# Create your views here.
+class ListBookView(ListView):
+    template_name = 'bookproject/book/book_list.html'
+    model = Book
