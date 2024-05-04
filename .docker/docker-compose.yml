@@ -1,13 +1,10 @@
 version: '3.8'
 services:
-  python3:
-    restart: always
-    build: 
+  django_tutorial:
+    build:
       context: ..
       dockerfile: .docker/Dockerfile
-    container_name: 'Docker_python'
-    env_file: 
-      - ../.env
+    container_name: 'django_tutorial'
     working_dir: '/usr/src/app'
     tty: true
     volumes:
@@ -15,6 +12,32 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - ALLOWED_HOSTS = *
+      - ALLOWED_HOSTS=*
       - RUNSERVER_ADDR=0.0.0.0
       - RUNSERVER_PORT=8000
+      
+# version: Docker Composeのバージョンを指定します（ここでは3.8）
+# services: アプリケーションを構成するサービス（コンテナ）を定義するセクション
+  # django_tutorial: サービス名（プロジェクトごとに適切な名前に変更する）
+
+# build: ビルド設定を指定するセクション
+#   context: Dockerfileの場所を指定（ここでは親ディレクトリを指定）
+#   dockerfile: Dockerfileのパスを指定（.docker/Dockerfile）
+
+# container_name: コンテナの名前を指定（docker-composeごとに異なる名前を指定する）
+  # ここではdjango_tutorialを指定
+
+# working_dir: コンテナ内の作業ディレクトリを指定（/usr/src/app）
+
+# tty: コンテナにttyを割り当てる（デバッグ用）
+
+# volumes: ホストとコンテナ間のボリュームマッピングを指定するセクション
+#   ../project:/usr/src/app: ホストの../projectをコンテナの/usr/src/appにマウント
+
+# ports: ホストとコンテナのポートマッピングを指定するセクション
+#   "8000:8000": ホストの8000番ポートをコンテナの8000番ポートにマッピング
+
+# environment: 環境変数を指定するセクション
+#   ALLOWED_HOSTS: DjangoのALLOWED_HOSTS環境変数を設定
+#   RUNSERVER_ADDR: DjangoのRUNSERVER_ADDR環境変数を設定
+#   RUNSERVER_PORT: DjangoのRUNSERVER_PORT環境変数を設定

@@ -3,19 +3,13 @@
 ## 概要
 このプロジェクトはPythonを使用したサンプルアプリケーションです。Dockerを利用して環境を構築し、ローカルで容易に実行できます。
 
-### 1. projectディレクトリについて
+### projectディレクトリについて
 コンテナ起動中、`project`ディレクトリのみがコンテナ内の`/usr/src/app`にマウントされます。
 
 これにより、`project`ディレクトリ内でのファイル編集がリアルタイムでコンテナ内に反映され、効率的な開発が可能となります。
 
-### 2. .envファイルについて
-また、プロジェクトのルートディレクトリに`.env`ファイルを追加することができます、このファイルに定義された環境変数はコンテナ内で直接参照されます。
-
-docker-compose.ymlファイル内にenv_fileオプションを指定することで、.envファイルの内容がコンテナ起動時に自動的に読み込まれるように設定されています。
-
-pull時に`.env`ファイルが`.gitignore`に含まれている場合、`.env`ファイルは`.gitignore`に含まれているため、`.gitignore`に`.env`を追加する必要があります。
-
 ## 前提条件
+- Gitがインストールされていること。
 - Docker Desktopがインストールされていること。
 
 ## プロジェクトの構成
@@ -24,7 +18,6 @@ C:.
 │  .gitignore
 │  README.md
 │  requirements.txt
-│  .env
 │
 ├─.docker
 │      docker-compose.yml
@@ -33,7 +26,6 @@ C:.
 ├─project
 │      README.md
 │      requirements.txt
-│      main.py
 │
 └─tests
         test.py
@@ -45,32 +37,79 @@ C:.
 
     まず、このプロジェクトをあなたのローカルシステムにクローンします。
     ```
-    git clone https://github.com/yamato-snow/Python_Dev.git <プロジェクト名>
+    git clone https://github.com/yamato-snow/Django_study_Docker.git <プロジェクト名>
     ```
     クローンしたディレクトリに移動します。
     ```
     cd <プロジェクト名>
     ```
 
-2. **Dockerイメージのビルド**
+2. **ディレクトリの移動**
 
-    プロジェクトのルートディレクトリから、Dockerイメージをビルドします。以下のコマンドを実行してください。
+    プロジェクトのルートディレクトリに移動します。
+    ```
+    cd <プロジェクト名>
+    ```
+
+3. **リポジトリの紐づけを変更**
+    
+    リポジトリの紐づけを変更します。
+    ```
+    git remote set-url origin <新しいリポジトリのURL>
+    ```
+
+    ※変更されたか確認する場合は、次のコマンドを実行します。
+    ```
+    git remote -v
+    ```
+
+4. **リポジトリの変更をプッシュ**
+
+    リポジトリの変更をプッシュします。
+    ```
+    git push -u origin main
+    ```
+
+5. **Dockerイメージのビルド**
+
+    プロジェクトのルートディレクトリから、Dockerイメージをビルドします。
     ```
     docker-compose -f .docker/docker-compose.yml build
     ```
 
-3. **コンテナの起動**
+6. **コンテナの起動**
 
     Dockerイメージのビルドが完了したら、コンテナを起動します。
-
-    コンテナをバックグラウンドで実行したい場合は、コマンドに`-d`フラグを追加します。
     ```
     docker-compose -f .docker/docker-compose.yml up -d
     ```
 
-4. **各種コマンド**
+7. **bashの実行**
+
+    bashの実行をするためには、次のコマンドを実行します。
+    ```
+    docker exec -it <コンテナ名> bash
+    ```
+    ※コンテナ名は、`docker container ls -a`コマンドで確認できます。
+
+    ※bashを出る場合は、次のコマンドを実行します。
+    ```
+    exit
+    ```
+
+8. **アプリケーションの停止とクリーンアップ**
+
+    アプリケーションの実行を停止し、コンテナを削除するには、次のコマンドを実行します。
+    ```
+    docker-compose -f .docker/docker-compose.yml down
+    ```
+
+## ※補足１：各種コマンド
+
+1. **Docker環境下**
 
     Dockerのコンテナを確認
+
     ```
     docker container ls -a 
     ```
@@ -80,100 +119,70 @@ C:.
     docker images ls -a
     ```
 
-5. **bashの実行**
-
-    bashの実行をするためには、次のコマンドを実行します。
+    Dockerのボリュームを確認
     ```
-    docker exec -it Docker_python bash
+    docker volume ls
     ```
 
-    bashを出る場合は、次のコマンドを実行します。
+2. **bash環境下（Djangoコマンド）**
+
+    Djangoプロジェクトの作成
     ```
-    exit
+    django-admin startproject <プロジェクト名> .
     ```
 
-6. **各種bash内部のコマンド**
-
-    インストールされているPythonパッケージのリストを表示
+    Djangoアプリケーションの作成
     ```
-    pip list
+    python manage.py startapp <アプリ名>
     ```
 
-    インストールされているPythonのバージョンを表示
+    Djangoのマイグレーション
     ```
-    python --version
-    ```
-
-    独自のrequirements.txtファイルを使用してPythonパッケージをインストール
-    ```
-    pip install -r requirements.txt
+    python manage.py makemigrations
+    python manage.py migrate
     ```
 
-    ホームに移動
+    Djangoのスーパーユーザー作成
     ```
-    cd
-    ```
-
-    フォルダを指定して移動
-    ```
-    cd フォルダ名
+    python manage.py createsuperuser
     ```
 
-    フォルダを階層まで指定して移動
+    Djangoの開発サーバー起動
     ```
-    cd フォルダ名/フォルダ名/フォルダ名
-    ```
-
-    一つ上の階層のフォルダに移動
-    ```
-    cd ../
+    python manage.py runserver 0.0.0.0:8000
     ```
 
-    今いるフォルダ内のファイル確認
-    ```
-    ls
-    ```
+## ※補足２：docker-compose.ymlについて
+docker-compose.ymlファイルにおけるサービス名とコンテナ名の競合に関するケースを示した表です。
 
-    隠しファイルも含めて表示
-    ```
-    ls -a
-    ```
+| ケース                                                                         | 許容される |
+|------------------------------------------------------------------------------|--------|
+| 同じdocker-compose.ymlファイル内で、サービス名が同じでコンテナ名が同じ                              | ×      |
+| 同じdocker-compose.ymlファイル内で、サービス名が同じでコンテナ名が異なる                              | ×      |
+| 同じdocker-compose.ymlファイル内で、サービス名が異なりコンテナ名が同じ                               | ○      |
+| 同じdocker-compose.ymlファイル内で、サービス名が異なりコンテナ名が異なる                              | ○      |
+| 異なるdocker-compose.ymlファイル間で、サービス名が同じでコンテナ名が同じ                              | ×      |
+| 異なるdocker-compose.ymlファイル間で、サービス名が同じでコンテナ名が異なる                             | ○      |
+| 異なるdocker-compose.ymlファイル間で、サービス名が異なりコンテナ名が同じ                              | ×      |
+| 異なるdocker-compose.ymlファイル間で、サービス名が異なりコンテナ名が異なる                             | ○      |
 
-7. **アプリケーションの停止とクリーンアップ**
+### まとめ
+- 同じdocker-compose.ymlファイル内では、サービス名の競合は許容されない。
+- 同じdocker-compose.ymlファイル内では、コンテナ名の競合は許容される。
+- 異なるdocker-compose.ymlファイル間では、サービス名の競合は許容される。
+- 異なるdocker-compose.ymlファイル間では、コンテナ名の競合は許容されない。
 
-    アプリケーションの実行を停止し、コンテナを削除するには、次のコマンドを実行します。
-    ```
-    docker-compose -f .docker/docker-compose.yml down
-    ```
+## ※補足３：project/requirements.txtについて
+`project/requirements.txt`ファイルには、Pythonプロジェクトで使用するパッケージを記述します。
 
-## 注意事項
-- この手順は、プロジェクトのディレクトリ構造や設定が予め指定された通りであることを前提としています。
-- 必要に応じて、`.env`ファイルを作成し、環境変数を設定してください。
+例えば、Pandasを使用する場合、`project/requirements.txt`ファイルには次のように記述します。
 
-以下は、`.env`ファイルを含む更新されたディレクトリ構造の例です。
-
-```
-C:.
-│  .gitignore              # Gitの無視ファイルリスト
-│  README.md               # プロジェクトの説明
-│  requirements.txt        # 基本のPythonの依存関係リスト
-│  .env                    # 環境変数設定ファイル <-- ここに配置
-│
-├─.docker
-│      docker-compose.yml  # Docker Compose設定ファイル
-│      Dockerfile          # Dockerイメージのビルド指示ファイル
-│
-├─project
-│      main.py             # アプリケーションのメインスクリプト
-│      README.md           # プロジェクトの説明
-│      requirements.txt    # 独自のPythonの依存関係リスト
-│
-└─tests
-    # テストスクリプト（ここに配置されます）
+```requirements.txt
+pandas==1.3.3
 ```
 
-`.env`ファイルをプロジェクトのルートディレクトリに配置することで、`docker-compose.yml`がデフォルトでその場所から環境変数を読み込むことができます。このファイルを使用することで、データベースの接続情報、APIキー、その他の機密情報など、開発、テスト、本番環境に特有の設定を管理できます。また、`.env`ファイルはプライバシーを保護するために、バージョン管理システム（例: Git）から除外すべきです。これは、`.gitignore`ファイルに`.env`を追加することで達成できます。
+インストールする場合は、次のコマンドを実行します。
 
-### 重要:
-- `.env`ファイルは機密情報を含む可能性があるため、外部に公開しないようにしてください。
-- 環境ごとに異なる`.env`ファイルを持つ場合（例：`.env.production`、`.env.development`）、適切なファイルが各環境で読み込まれるように設定する必要があります。これは`docker-compose.yml`やアプリケーションの起動スクリプトで管理できます。
+```
+pip install -r requirements.txt
+```
